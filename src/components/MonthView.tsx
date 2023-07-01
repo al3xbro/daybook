@@ -12,7 +12,7 @@ export default function MonthView() {
 
     const firstDayOfMonth = new Date(currYear, month, 1).getDay()
     const daysInMonth = new Date(currYear, currMonth, 0).getDate()
-    const daysToRender = (Math.ceil((firstDayOfMonth + daysInMonth - 1) / 7) * 7) - firstDayOfMonth
+    const daysToRender = (Math.ceil((firstDayOfMonth + daysInMonth) / 7) * 7) - firstDayOfMonth
 
     const days: Date[] = []
 
@@ -22,15 +22,20 @@ export default function MonthView() {
         days.push(new Date(currYear, month, i))
     }
 
+    console.log(daysToRender)
+
     return (
-        <div className="flex flex-col w-full justify-center items-center">
-            <div className="flex gap-4">
-                <button className="w-10 border" onClick={() => setMonth(month - 1)}>-</button>
-                <div>{month + 1}</div>
-                <button className="w-10 border" onClick={() => setMonth(month + 1)}>+</button>
+        <div className="flex flex-col w-full justify-center items-center h-full">
+            <div className="flex gap-10 m-5">
+                <div className="flex gap-4">
+                    <button className="w-10 border-2 border-gray-300 active:border-gray-400" onClick={() => setMonth(month - 1)}>-</button>
+                    <div>{new Date(currYear, month).getMonth() + 1 + " " + new Date(currYear, month).getFullYear()}</div>
+                    <button className="w-10 border-2 border-gray-300 active:border-gray-400" onClick={() => setMonth(month + 1)}>+</button>
+                </div>
+                <button className="w-40 border-2 border-gray-300 active:border-gray-400" onClick={() => setMonth(currMonth)}>Today</button>
             </div>
-            <div className="grid border grid-cols-7 max-w-6xl w-full">
-                {days.map((e) => <Day date={e} />)}
+            <div className="grid border border-gray-300 grid-cols-7 max-w-6xl w-full h-full mb-16">
+                {days.map((e) => <Day date={e} viewingMonth={new Date(currYear, month).getMonth()} key={e.getTime()} />)}
             </div>
         </div>
     )
