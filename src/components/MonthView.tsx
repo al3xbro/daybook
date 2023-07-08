@@ -13,6 +13,7 @@ export default function MonthView() {
     const firstDayOfMonth = new Date(currYear, month, 1).getDay()
     const daysInMonth = new Date(currYear, currMonth, 0).getDate()
     const daysToRender = (Math.ceil((firstDayOfMonth + daysInMonth) / 7) * 7) - firstDayOfMonth
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", 'November', "December"]
 
     const days: Date[] = []
 
@@ -22,14 +23,12 @@ export default function MonthView() {
         days.push(new Date(currYear, month, i))
     }
 
-    console.log(daysToRender)
-
     return (
         <div className="flex flex-col w-full justify-center items-center h-full">
             <div className="flex gap-10 m-5">
                 <div className="flex gap-4">
                     <button className="w-10 border-2 border-gray-300 active:border-gray-400" onClick={() => setMonth(month - 1)}>-</button>
-                    <div>{new Date(currYear, month).getMonth() + 1 + " " + new Date(currYear, month).getFullYear()}</div>
+                    <div>{months[new Date(currYear, month).getMonth()] + " " + new Date(currYear, month).getFullYear()}</div>
                     <button className="w-10 border-2 border-gray-300 active:border-gray-400" onClick={() => setMonth(month + 1)}>+</button>
                 </div>
                 <button className="w-40 border-2 border-gray-300 active:border-gray-400" onClick={() => setMonth(currMonth)}>Today</button>
