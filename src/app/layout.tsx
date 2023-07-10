@@ -21,7 +21,7 @@ export default async function RootLayout({
     return (
         <html lang="en">
             <Provider session={session}>
-                <body className={montserrat.className}>
+                <body className={`${montserrat.className} h-screen w-screen flex justify-center`}>
                     <Navbar />
                     {children}
                 </body>
