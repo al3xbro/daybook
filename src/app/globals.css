@@ -7,3 +7,19 @@
     padding: 7px;
     border-radius: 5px;
 }
+
+.nav-button:active {
+    border: 2px solid rgb(126 133 145);
+}
+
+.side-button {
+    border: 2px solid rgb(156 163 175);
+    padding: 7px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 5px;
+}
+
+.side-button:active {
+    border: 2px solid rgb(126 133 145);
+}

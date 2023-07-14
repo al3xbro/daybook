@@ -1,4 +1,5 @@
 import MonthView from "@/components/MonthView";
+import Sidebar from "@/components/Sidebar";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../api/auth/[...nextauth]/route";
@@ -9,6 +10,10 @@ export default async function ProtectedCalendar() {
         redirect("/");
     }
     return (
-        <MonthView />
+
+        <div className="flex flex-row w-full h-full">
+            <Sidebar />
+            <MonthView />
+        </div>
     )
 }

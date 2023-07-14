@@ -24,8 +24,8 @@ export default function MonthView() {
     }
 
     return (
-        <div className="flex flex-col mt-20 w-full justify-center gap-4">
-            <div className="flex gap-10 justify-center">
+        <div className="flex flex-col mt-16 w-full">
+            <div className="flex gap-10 justify-center border border-gray-300 p-4">
                 <div className="flex gap-4">
                     <button className="w-10 border-2 border-gray-300 active:border-gray-400" onClick={() => setMonth(month - 1)}>-</button>
                     <div>{months[new Date(currYear, month).getMonth()] + " " + new Date(currYear, month).getFullYear()}</div>
@@ -33,7 +33,7 @@ export default function MonthView() {
                 </div>
                 <button className="w-40 border-2 border-gray-300 active:border-gray-400" onClick={() => setMonth(currMonth)}>Today</button>
             </div>
-            <div className="flex grid border border-gray-300 grid-cols-7 max-w- w-full h-full justify-center">
+            <div className="grid grid-cols-7 w-full h-full justify-center">
                 {days.map((e) => <Day date={e} viewingMonth={new Date(currYear, month).getMonth()} key={e.getTime()} />)}
             </div>
         </div>
