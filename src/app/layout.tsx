@@ -1,6 +1,6 @@
 import './globals.css'
 import Navbar from '@/components/Navbar'
-import Provider from '@/components/Provider'
+import Wrapper from '@/components/Wrapper'
 import { Montserrat } from 'next/font/google'
 import { getServerSession } from "next-auth";
 import { authOptions } from './api/auth/[...nextauth]/route';
@@ -20,12 +20,12 @@ export default async function RootLayout({
     const session = await getServerSession(authOptions);
     return (
         <html lang="en">
-            <Provider session={session}>
+            <Wrapper session={session}>
                 <body className={`${montserrat.className} h-screen w-screen flex justify-center`}>
                     <Navbar />
                     {children}
                 </body>
-            </Provider>
+            </Wrapper>
         </html >
     )
 }
