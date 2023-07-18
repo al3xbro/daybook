@@ -7,8 +7,11 @@ export async function GET(req: Request) {
     const cookieStore = cookies()
     const session = cookieStore.get(cookie)
     const { searchParams } = new URL(req.url);
+
     try {
-        const date = new Date(z.string().parse(searchParams.get("date")))
+        const start = new Date(z.string().parse(searchParams.get("date")))
+        const end = new Date(start.getFullYear(), start.getMonth(), start.getDate() + 1, start.getHours(), start.getMinutes(), start.getSeconds(), start.getMilliseconds() - 1)
+
         const sessionValue = z.string().parse(session?.value)
         const data = await prismaClient.session.findUnique({
             where: {
@@ -21,16 +24,21 @@ export async function GET(req: Request) {
                             where: {
                                 OR: [
                                     {
-                                        endTime: {
-
-                                            where: {
-                                                AND: {
-                                                    gte: date.getDate
-                                                }
+                                        AND: [
+                                            {
+                                                startTime: {
+                                                    gte: start.toISOString(),
+                                                    lte: end.toISOString(),
+                                                },
                                             }
-                                        }
+                                        ],
                                     },
-                                    { startTime: date },
+                                    {
+                                        endTime: {
+                                            gte: start.toISOString(),
+                                            lte: end.toISOString(),
+                                        }
+                                    }
                                 ]
                             },
                             select: {
