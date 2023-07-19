@@ -60,3 +60,14 @@ export async function GET(req: Request) {
         return new Response("error", { status: 500 })
     }
 }
+
+export async function POST() {
+    const cookieStore = cookies()
+    const session = cookieStore.get(cookie)
+    try {
+
+    } catch (error) {
+        console.log(error)
+        return new Response("error", { status: 500 })
+    }
+}

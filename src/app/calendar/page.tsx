@@ -10,7 +10,6 @@ export default async function ProtectedCalendar() {
         redirect("/");
     }
     return (
-
         <div className="flex flex-row w-full h-full">
             <Sidebar />
             <MonthView />
