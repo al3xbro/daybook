@@ -61,11 +61,11 @@ export async function GET(req: Request) {
     }
 }
 
-export async function POST() {
+export async function POST(req: Request) {
     const cookieStore = cookies()
     const session = cookieStore.get(cookie)
     try {
-
+        console.log(req.json())
     } catch (error) {
         console.log(error)
         return new Response("error", { status: 500 })

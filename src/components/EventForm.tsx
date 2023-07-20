@@ -1,13 +1,9 @@
 "use client"
-import { useQuery, useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import axios from "axios"
 
 type Props = {
     change: Function
-}
-
-function createEvent(e: any) {
-    alert(e.target.title.value)
 }
 
 function defaultStartTime() {
@@ -23,6 +19,28 @@ function defaultEndTime() {
 }
 
 export default function EventForm({ change }: Props) {
+    const queryClient = useQueryClient()
+    const eventMutation = useMutation({
+        mutationFn: (newEvent: {}) => {
+            return axios.post("/api/entry", newEvent)
+        },
+        onSuccess: (newEvent: any) => {
+            let startDay = new Date(newEvent["startTime"])
+            startDay = new Date(startDay.getFullYear(), startDay.getMonth(), startDay.getDate())
+            let endDay = new Date(newEvent["endTime"])
+            endDay = new Date(startDay.getFullYear(), startDay.getMonth(), startDay.getDate())
+            queryClient.invalidateQueries([`date${startDay.toISOString()}`, `date${endDay.toISOString()}`])
+        }
+    })
+    function createEvent(e: any) {
+        const event = {
+            title: e.target.title.value,
+            startTime: (new Date(e.target.startTime.value)).toISOString(),
+            endTime: (new Date(e.target.endTime.value)).toISOString(),
+            notes: e.target.notes.value
+        }
+        eventMutation.mutate(event)
+    }
     return (
         <div className="self-center w-4/5">
             <form onSubmit={() => { createEvent(event); change(0) }} className="flex flex-col gap-5 w-full">
@@ -32,11 +50,11 @@ export default function EventForm({ change }: Props) {
                 </div>
                 <div>
                     <div className="text-right">start time</div>
-                    <input type="datetime-local" id="startTime" className="w-full p-1 rounded-md" value={defaultStartTime()} />
+                    <input type="datetime-local" id="startTime" className="w-full p-1 rounded-md" defaultValue={defaultStartTime()} />
                 </div>
                 <div>
                     <div className="text-right">end time</div>
-                    <input type="datetime-local" id="endTime" className="w-full p-1 rounded-md" value={defaultEndTime()} />
+                    <input type="datetime-local" id="endTime" className="w-full p-1 rounded-md" defaultValue={defaultEndTime()} />
                 </div>
                 <div>
                     <div className="text-right">notes</div>

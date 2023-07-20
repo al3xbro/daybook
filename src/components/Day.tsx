@@ -9,7 +9,8 @@ type Props = {
 
 export default function Day({ date, viewingMonth }: Props) {
     const query = useQuery({
-        queryKey: [`entry${date}`], queryFn: async () => {
+        queryKey: [`date${date.toISOString()}`],
+        queryFn: async () => {
             return axios.get(`/api/entry?date=${date}`)
         }
     })
