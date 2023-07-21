@@ -22,15 +22,15 @@ export default function EventForm({ change }: Props) {
     const queryClient = useQueryClient()
     const eventMutation = useMutation({
         mutationFn: (newEvent: {}) => {
-            return axios.post("/api/entry", newEvent)
+            return axios({
+                url: "/api/entry",
+                headers: {
+                    "Content-type": "multipart/form-data"
+                },
+                method: "POST",
+                data: newEvent
+            })
         },
-        onSuccess: (newEvent: any) => {
-            let startDay = new Date(newEvent["startTime"])
-            startDay = new Date(startDay.getFullYear(), startDay.getMonth(), startDay.getDate())
-            let endDay = new Date(newEvent["endTime"])
-            endDay = new Date(startDay.getFullYear(), startDay.getMonth(), startDay.getDate())
-            queryClient.invalidateQueries([`date${startDay.toISOString()}`, `date${endDay.toISOString()}`])
-        }
     })
     function createEvent(e: any) {
         const event = {
@@ -39,7 +39,15 @@ export default function EventForm({ change }: Props) {
             endTime: (new Date(e.target.endTime.value)).toISOString(),
             notes: e.target.notes.value
         }
-        eventMutation.mutate(event)
+        eventMutation.mutate(event, {
+            onSuccess: () => {
+                let startDay = new Date(event["startTime"])
+                startDay = new Date(startDay.getFullYear(), startDay.getMonth(), startDay.getDate())
+                let endDay = new Date(event["endTime"])
+                endDay = new Date(startDay.getFullYear(), startDay.getMonth(), startDay.getDate())
+                queryClient.invalidateQueries([`date${startDay.toISOString()}`, `date${endDay.toISOString()}`])
+            }
+        })
     }
     return (
         <div className="self-center w-4/5">
