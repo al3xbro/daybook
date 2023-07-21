@@ -15,8 +15,10 @@ export default function MonthView() {
     const daysToRender = (Math.ceil((firstDayOfMonth + daysInMonth) / 7) * 7) - firstDayOfMonth
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", 'November', "December"]
 
+    // all dates to be rendered
     const days: Date[] = []
 
+    // adds all dates i forgot how this even works i went brazy that day
     for (let i = (-firstDayOfMonth + 1);
         i <= daysToRender;
         i++) {

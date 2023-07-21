@@ -6,12 +6,12 @@ type Props = {
     change: Function
 }
 
+// finds defaultValue start and end times for form 
 function defaultStartTime() {
     const date = new Date()
     date.setMinutes(date.getMinutes() - date.getTimezoneOffset())
     return date.toISOString().substring(0, 16)
 }
-
 function defaultEndTime() {
     const date = new Date()
     date.setMinutes(date.getMinutes() - date.getTimezoneOffset() + 60)
@@ -19,6 +19,8 @@ function defaultEndTime() {
 }
 
 export default function EventForm({ change }: Props) {
+
+    // defines useMutation
     const queryClient = useQueryClient()
     const eventMutation = useMutation({
         mutationFn: (newEvent: {}) => {
@@ -32,6 +34,8 @@ export default function EventForm({ change }: Props) {
             })
         },
     })
+
+    // creates event using usemMutation.mutate()
     function createEvent(e: any) {
         const event = {
             title: e.target.title.value,
@@ -49,6 +53,7 @@ export default function EventForm({ change }: Props) {
             }
         })
     }
+
     return (
         <div className="self-center w-4/5">
             <form onSubmit={() => { createEvent(event); change(0) }} className="flex flex-col gap-5 w-full">

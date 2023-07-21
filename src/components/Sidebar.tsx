@@ -5,6 +5,7 @@ import Todoform from "./TodoForm"
 import { useState } from "react"
 
 export default function Sidebar() {
+    // visible state for forms and buttons
     const [formVisible, changeVisible] = useState(0)
 
     return (

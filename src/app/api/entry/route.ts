@@ -14,6 +14,8 @@ export async function GET(req: Request) {
         const end = new Date(start.getFullYear(), start.getMonth(), start.getDate() + 1, start.getHours(), start.getMinutes(), start.getSeconds(), start.getMilliseconds() - 1)
 
         const sessionValue = z.string().parse(session?.value)
+
+        // gets all events and tasks for that day
         const data = await prismaClient.session.findUnique({
             where: {
                 sessionToken: sessionValue
