@@ -83,12 +83,14 @@ export async function POST(req: Request) {
         })
         const id = user ? user["userId"].toString() : ""
 
+        console.log(data)
+
         // creates entry 
         await prismaClient.entry.create({
             data: {
                 title: data.get("title")?.toString() ?? "Unnamed",
                 notes: data.get("notes")?.toString(),
-                startTime: "startTime" in data ? data.get("startTime")?.toString() : null,
+                startTime: data.has("startTime") ? data.get("startTime")?.toString() : null,
                 endTime: data.get("endTime")?.toString() ?? new Date(),
                 userId: id
                 // TODO: add repeating weekdays
