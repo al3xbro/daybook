@@ -41,8 +41,16 @@ export default function EventForm({ change }: Props) {
             title: e.target.title.value,
             startTime: (new Date(e.target.startTime.value)).toISOString(),
             endTime: (new Date(e.target.endTime.value)).toISOString(),
-            notes: e.target.notes.value
+            notes: e.target.notes.value,
+            sun: e.target.sun.checked,
+            mon: e.target.mon.checked,
+            tue: e.target.tue.checked,
+            wed: e.target.wed.checked,
+            thu: e.target.thu.checked,
+            fri: e.target.fri.checked,
+            sat: e.target.sat.checked
         }
+
         eventMutation.mutate(event, {
             onSuccess: () => {
                 let startDay = new Date(event["startTime"])
@@ -72,6 +80,36 @@ export default function EventForm({ change }: Props) {
                 <div>
                     <div className="text-right">notes</div>
                     <textarea id="notes" className="w-full p-1 rounded-md"></textarea>
+                </div>
+                <div className="flex w-full justify-evenly">
+                    <div className="flex flex-col ">
+                        <input type="checkbox" id="sun" />
+                        <label htmlFor="sun">S</label>
+                    </div>
+                    <div className="flex flex-col">
+                        <input type="checkbox" id="mon" />
+                        <label htmlFor="mon">M</label>
+                    </div>
+                    <div className="flex flex-col">
+                        <input type="checkbox" id="tue" />
+                        <label htmlFor="tue">T</label>
+                    </div>
+                    <div className="flex flex-col">
+                        <input type="checkbox" id="wed" />
+                        <label htmlFor="wed">W</label>
+                    </div>
+                    <div className="flex flex-col">
+                        <input type="checkbox" id="thu" />
+                        <label htmlFor="thu">T</label>
+                    </div>
+                    <div className="flex flex-col">
+                        <input type="checkbox" id="fri" />
+                        <label htmlFor="fri">F</label>
+                    </div>
+                    <div className="flex flex-col">
+                        <input type="checkbox" id="sat" />
+                        <label htmlFor="sat">S</label>
+                    </div>
                 </div>
                 <div className="flex flex-row gap-3">
                     <input type="submit" className="ui-button flex-1 bg-blue-200" />

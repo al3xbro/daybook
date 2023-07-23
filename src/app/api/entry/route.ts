@@ -57,6 +57,7 @@ export async function GET(req: Request) {
                 }
             }
         })
+
         return new Response(JSON.stringify(data?.user.Entry))
     } catch (error) {
         console.log(error)
@@ -69,7 +70,7 @@ export async function POST(req: Request) {
     const session = cookieStore.get(cookie)
 
     try {
-        const data = await req.formData()
+        const formData = await req.formData()
         const sessionValue = z.string().parse(session?.value)
 
         // gets userid from session
@@ -83,19 +84,31 @@ export async function POST(req: Request) {
         })
         const id = user ? user["userId"].toString() : ""
 
-        console.log(data)
+        // places all weekday data into an array
+        const weekdays = []
+        if (formData.get("sun") == "true") weekdays.push({ days: "sunday" })
+        if (formData.get("mon") == "true") weekdays.push({ days: "monday" })
+        if (formData.get("tue") == "true") weekdays.push({ days: "tuesday" })
+        if (formData.get("wed") == "true") weekdays.push({ days: "wednesday" })
+        if (formData.get("thu") == "true") weekdays.push({ days: "thursday" })
+        if (formData.get("fri") == "true") weekdays.push({ days: "friday" })
+        if (formData.get("sat") == "true") weekdays.push({ days: "saturday" })
 
         // creates entry 
         await prismaClient.entry.create({
             data: {
-                title: data.get("title")?.toString() ?? "Unnamed",
-                notes: data.get("notes")?.toString(),
-                startTime: data.has("startTime") ? data.get("startTime")?.toString() : null,
-                endTime: data.get("endTime")?.toString() ?? new Date(),
-                userId: id
-                // TODO: add repeating weekdays
+                title: formData.get("title")?.toString() ?? "Unnamed",
+                notes: formData.get("notes")?.toString(),
+                startTime: formData.has("startTime") ? formData.get("startTime")?.toString() : null,
+                endTime: formData.get("endTime")?.toString() ?? new Date(),
+                userId: id,
+                weekdays: {
+                    // @ts-ignore
+                    connect: weekdays
+                }
             }
         })
+
         return new Response("ok", { status: 200 })
     } catch (error) {
         console.log(error)
