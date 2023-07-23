@@ -2,7 +2,6 @@ import prismaClient from "@/lib/prisma";
 import { cookies } from 'next/headers'
 import cookie from "@/lib/cookies";
 import { z } from "zod"
-import { Days } from "@prisma/client";
 
 export async function GET(req: Request) {
     const cookieStore = cookies()
