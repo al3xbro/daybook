@@ -58,28 +58,21 @@ model VerificationToken {
 }
 
 model Entry {
-    id        String     @id @default(cuid())
+    id        String      @id @default(cuid())
     title     String
     notes     String?
     startTime DateTime?
     endTime   DateTime
-    user      User       @relation(fields: [userId], references: [id])
+    user      User        @relation(fields: [userId], references: [id])
     userId    String
-    createdAt DateTime   @updatedAt
-    weekdays  Weekdays[]
+    createdAt DateTime    @updatedAt
+    repeatOn  RepeatTypes @default(none)
 }
 
-enum Days {
-    sunday
-    monday
-    tuesday
-    wednesday
-    thursday
-    friday
-    saturday
-}
-
-model Weekdays {
-    days  Days    @id
-    entry Entry[]
+enum RepeatTypes {
+    daily
+    weekly
+    monthly
+    yearly
+    none
 }

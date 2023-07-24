@@ -48,7 +48,7 @@ export async function GET(req: Request) {
                                 notes: true,
                                 startTime: true,
                                 endTime: true,
-                                weekdays: true,
+                                repeatOn: true,
                             },
 
                         }
@@ -57,7 +57,7 @@ export async function GET(req: Request) {
             }
         })
 
-        return new Response(JSON.stringify(data?.user.Entry))
+        return new Response(JSON.stringify(data?.user.Entry), { status: 200 })
     } catch (error) {
         console.log(error)
         return new Response("error", { status: 500 })
@@ -83,16 +83,6 @@ export async function POST(req: Request) {
         })
         const id = user ? user["userId"].toString() : ""
 
-        // places all weekday data into an array
-        const weekdays = []
-        if (formData.get("sun") == "true") weekdays.push({ days: "sunday" })
-        if (formData.get("mon") == "true") weekdays.push({ days: "monday" })
-        if (formData.get("tue") == "true") weekdays.push({ days: "tuesday" })
-        if (formData.get("wed") == "true") weekdays.push({ days: "wednesday" })
-        if (formData.get("thu") == "true") weekdays.push({ days: "thursday" })
-        if (formData.get("fri") == "true") weekdays.push({ days: "friday" })
-        if (formData.get("sat") == "true") weekdays.push({ days: "saturday" })
-
         // creates entry 
         await prismaClient.entry.create({
             data: {
@@ -101,10 +91,8 @@ export async function POST(req: Request) {
                 startTime: formData.has("startTime") ? formData.get("startTime")?.toString() : null,
                 endTime: formData.get("endTime")?.toString() ?? new Date(),
                 userId: id,
-                weekdays: {
-                    // @ts-ignore
-                    connect: weekdays
-                }
+                // @ts-ignore
+                repeatOn: formData.get("repeatOn")?.toString()
             }
         })
 

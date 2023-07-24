@@ -19,6 +19,7 @@ function defaultEndTime() {
 }
 
 export default function EventForm({ change }: Props) {
+    let repeatState = "none"
 
     // defines useMutation
     const queryClient = useQueryClient()
@@ -42,13 +43,7 @@ export default function EventForm({ change }: Props) {
             startTime: (new Date(e.target.startTime.value)).toISOString(),
             endTime: (new Date(e.target.endTime.value)).toISOString(),
             notes: e.target.notes.value,
-            sun: e.target.sun.checked,
-            mon: e.target.mon.checked,
-            tue: e.target.tue.checked,
-            wed: e.target.wed.checked,
-            thu: e.target.thu.checked,
-            fri: e.target.fri.checked,
-            sat: e.target.sat.checked
+            repeatOn: repeatState.toString()
         }
 
         eventMutation.mutate(event, {
@@ -81,34 +76,29 @@ export default function EventForm({ change }: Props) {
                     <div className="text-right">notes</div>
                     <textarea id="notes" className="w-full p-1 rounded-md"></textarea>
                 </div>
-                <div className="flex w-full justify-evenly">
-                    <div className="flex flex-col ">
-                        <input type="checkbox" id="sun" />
-                        <label htmlFor="sun">S</label>
-                    </div>
-                    <div className="flex flex-col">
-                        <input type="checkbox" id="mon" />
-                        <label htmlFor="mon">M</label>
-                    </div>
-                    <div className="flex flex-col">
-                        <input type="checkbox" id="tue" />
-                        <label htmlFor="tue">T</label>
-                    </div>
-                    <div className="flex flex-col">
-                        <input type="checkbox" id="wed" />
-                        <label htmlFor="wed">W</label>
-                    </div>
-                    <div className="flex flex-col">
-                        <input type="checkbox" id="thu" />
-                        <label htmlFor="thu">T</label>
-                    </div>
-                    <div className="flex flex-col">
-                        <input type="checkbox" id="fri" />
-                        <label htmlFor="fri">F</label>
-                    </div>
-                    <div className="flex flex-col">
-                        <input type="checkbox" id="sat" />
-                        <label htmlFor="sat">S</label>
+                <div>
+                    <div className="text-right">repeat on</div>
+                    <div className="flex w-full flex-col">
+                        <div className="flex gap-1">
+                            <input name="repeat" type="radio" id="daily" onClick={() => { repeatState = "daily" }} />
+                            <label htmlFor="daily">Daily</label>
+                        </div>
+                        <div className="flex gap-1">
+                            <input name="repeat" type="radio" id="weekly" onClick={() => { repeatState = "weekly" }} />
+                            <label htmlFor="weekly">Weekly</label>
+                        </div>
+                        <div className="flex gap-1">
+                            <input name="repeat" type="radio" id="monthly" onClick={() => { repeatState = "monthly" }} />
+                            <label htmlFor="monthly">Monthly</label>
+                        </div>
+                        <div className="flex gap-1">
+                            <input name="repeat" type="radio" id="yearly" onClick={() => { repeatState = "yearly" }} />
+                            <label htmlFor="yearly">Yearly</label>
+                        </div>
+                        <div className="flex gap-1">
+                            <input name="repeat" type="radio" id="none" onClick={() => { repeatState = "none" }} />
+                            <label htmlFor="none">None</label>
+                        </div>
                     </div>
                 </div>
                 <div className="flex flex-row gap-3">

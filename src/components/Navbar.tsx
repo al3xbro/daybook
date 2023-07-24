@@ -8,7 +8,7 @@ export default function Navbar() {
     return (
         <>
             <div className="h-16 w-full bg-gray-200 fixed flex items-center pl-10 pr-10 md:pl-20 md:pr-20 lg:pl-40 lg:pr-40">
-                <div className="flex-1">Daybook</div>
+                <div className="flex-1">STILL UNDER DEVELOPMENT. THIS IS JUST A DEMO.</div>
                 <div className="flex flex-1 items-center justify-end gap-10">
                     {/* shows different buttons based on authentication status */}
                     {status === "authenticated" ?
