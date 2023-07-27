@@ -1,3 +1,9 @@
+-- CreateEnum
+CREATE TYPE "RepeatTypes" AS ENUM ('daily', 'weekly', 'monthly', 'yearly', 'none');
+
+-- CreateEnum
+CREATE TYPE "Days" AS ENUM ('sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday');
+
 -- CreateTable
 CREATE TABLE "Account" (
     "id" TEXT NOT NULL,
@@ -44,6 +50,22 @@ CREATE TABLE "VerificationToken" (
     "expires" TIMESTAMP(3) NOT NULL
 );
 
+-- CreateTable
+CREATE TABLE "Entry" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "notes" TEXT,
+    "repeatOn" "RepeatTypes" NOT NULL DEFAULT 'none',
+    "startTime" TIMESTAMP(3),
+    "endTime" TIMESTAMP(3) NOT NULL,
+    "startDay" "Days",
+    "endDay" "Days" NOT NULL,
+    "userId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Entry_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Account_provider_providerAccountId_key" ON "Account"("provider", "providerAccountId");
 
@@ -64,3 +86,6 @@ ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId"
 
 -- AddForeignKey
 ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Entry" ADD CONSTRAINT "Entry_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

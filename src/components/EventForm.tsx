@@ -37,13 +37,16 @@ export default function EventForm({ change }: Props) {
     })
 
     // creates event using usemMutation.mutate()
+    const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
     function createEvent(e: any) {
-        const event = {
+        let event = {
             title: e.target.title.value,
             startTime: (new Date(e.target.startTime.value)).toISOString(),
             endTime: (new Date(e.target.endTime.value)).toISOString(),
             notes: e.target.notes.value,
-            repeatOn: repeatState.toString()
+            repeatOn: repeatState.toString(),
+            startDay: days[(new Date(e.target.startTime.value)).getDay()],
+            endDay: days[(new Date(e.target.endTime.value)).getDay()]
         }
 
         eventMutation.mutate(event, {

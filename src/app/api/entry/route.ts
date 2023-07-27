@@ -2,6 +2,8 @@ import prismaClient from "@/lib/prisma";
 import { cookies } from 'next/headers'
 import cookie from "@/lib/cookies";
 import { z } from "zod"
+import { Days } from "@prisma/client";
+import { RepeatTypes } from "@prisma/client";
 
 export async function GET(req: Request) {
     const cookieStore = cookies()
@@ -15,7 +17,7 @@ export async function GET(req: Request) {
         const sessionValue = z.string().parse(session?.value)
 
         // gets all events and tasks for that day
-        const data = await prismaClient.session.findUnique({
+        /* const data = await prismaClient.session.findUnique({
             where: {
                 sessionToken: sessionValue
             },
@@ -40,6 +42,18 @@ export async function GET(req: Request) {
                                             gte: start.toISOString(),
                                             lte: end.toISOString(),
                                         }
+                                    },
+                                    { repeatOn: "daily" },
+                                    {
+                                        AND: [
+                                            { repeatOn: "weekly" },
+                                            {
+                                                OR: [
+
+                                                    // if the requested day is the same as the event day
+                                                ]
+                                            }
+                                        ]
                                     }
                                 ]
                             },
@@ -57,7 +71,8 @@ export async function GET(req: Request) {
             }
         })
 
-        return new Response(JSON.stringify(data?.user.Entry), { status: 200 })
+        return new Response(JSON.stringify(data?.user.Entry), { status: 200 }) */
+        return new Response("ok", { status: 200 })
     } catch (error) {
         console.log(error)
         return new Response("error", { status: 500 })
@@ -92,7 +107,11 @@ export async function POST(req: Request) {
                 endTime: formData.get("endTime")?.toString() ?? new Date(),
                 userId: id,
                 // @ts-ignore
-                repeatOn: formData.get("repeatOn")?.toString()
+                repeatOn: RepeatTypes[formData.get("repeatOn")?.toString()],
+                // @ts-ignore
+                startDay: formData.has("startDay") ? Days[formData.get("startDay")?.toString()] : null,
+                // @ts-ignore
+                endDay: Days[formData.get("endDay")?.toString()] ?? new Date(),
             }
         })
 
