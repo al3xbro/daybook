@@ -65,8 +65,7 @@ model Entry {
 
     startTime String?
     endTime   String
-    startDay  Days?
-    endDay    Days
+    day       Days
 
     user   User   @relation(fields: [userId], references: [id])
     userId String

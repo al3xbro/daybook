@@ -99,7 +99,6 @@ export async function POST(req: Request) {
         const id = user ? user["userId"].toString() : ""
 
         // creates entry 
-        const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
         await prismaClient.entry.create({
             data: {
                 title: formData.get("title")?.toString() ?? "Unnamed",
@@ -110,12 +109,9 @@ export async function POST(req: Request) {
                 // @ts-ignore
                 repeatOn: RepeatTypes[formData.get("repeatOn")?.toString()],
                 // @ts-ignore
-                startDay: formData.has("startDay") ? Days[formData.get("startDay")?.toString()] : null,
-                // @ts-ignore
-                endDay: Days[formData.get("endDay")?.toString()] ?? days[new Date().getDay()],
+                day: formData.has("day") ? formData.get("day")?.toString() : null,
             }
         })
-
         return new Response("ok", { status: 200 })
     } catch (error) {
         console.log(error)

@@ -58,8 +58,7 @@ CREATE TABLE "Entry" (
     "repeatOn" "RepeatTypes" NOT NULL DEFAULT 'none',
     "startTime" TEXT,
     "endTime" TEXT NOT NULL,
-    "startDay" "Days",
-    "endDay" "Days" NOT NULL,
+    "day" "Days" NOT NULL,
     "userId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL,
 
