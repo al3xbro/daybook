@@ -63,8 +63,8 @@ model Entry {
     notes    String?
     repeatOn RepeatTypes @default(none)
 
-    startTime String?
-    endTime   String
+    startTime String
+    endTime   String?
     day       Days
 
     user   User   @relation(fields: [userId], references: [id])

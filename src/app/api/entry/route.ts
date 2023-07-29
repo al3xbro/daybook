@@ -101,15 +101,7 @@ export async function POST(req: Request) {
         // creates entry 
         await prismaClient.entry.create({
             data: {
-                title: formData.get("title")?.toString() ?? "Unnamed",
-                notes: formData.get("notes")?.toString(),
-                startTime: formData.has("startTime") ? formData.get("startTime")?.toString() : null,
-                endTime: formData.get("endTime")?.toString() ?? new Date().toLocaleDateString(),
-                userId: id,
-                // @ts-ignore
-                repeatOn: RepeatTypes[formData.get("repeatOn")?.toString()],
-                // @ts-ignore
-                day: formData.has("day") ? formData.get("day")?.toString() : null,
+
             }
         })
         return new Response("ok", { status: 200 })
