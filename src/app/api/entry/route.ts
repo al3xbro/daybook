@@ -99,19 +99,20 @@ export async function POST(req: Request) {
         const id = user ? user["userId"].toString() : ""
 
         // creates entry 
+        const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
         await prismaClient.entry.create({
             data: {
                 title: formData.get("title")?.toString() ?? "Unnamed",
                 notes: formData.get("notes")?.toString(),
                 startTime: formData.has("startTime") ? formData.get("startTime")?.toString() : null,
-                endTime: formData.get("endTime")?.toString() ?? new Date(),
+                endTime: formData.get("endTime")?.toString() ?? new Date().toLocaleDateString(),
                 userId: id,
                 // @ts-ignore
                 repeatOn: RepeatTypes[formData.get("repeatOn")?.toString()],
                 // @ts-ignore
                 startDay: formData.has("startDay") ? Days[formData.get("startDay")?.toString()] : null,
                 // @ts-ignore
-                endDay: Days[formData.get("endDay")?.toString()] ?? new Date(),
+                endDay: Days[formData.get("endDay")?.toString()] ?? days[new Date().getDay()],
             }
         })
 

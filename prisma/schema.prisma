@@ -63,8 +63,8 @@ model Entry {
     notes    String?
     repeatOn RepeatTypes @default(none)
 
-    startTime DateTime?
-    endTime   DateTime
+    startTime String?
+    endTime   String
     startDay  Days?
     endDay    Days
 
