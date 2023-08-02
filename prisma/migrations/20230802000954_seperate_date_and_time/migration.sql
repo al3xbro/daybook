@@ -56,9 +56,10 @@ CREATE TABLE "Entry" (
     "title" TEXT NOT NULL,
     "notes" TEXT,
     "repeatOn" "RepeatTypes" NOT NULL DEFAULT 'none',
-    "startTime" TEXT,
-    "endTime" TEXT NOT NULL,
+    "date" DATE NOT NULL,
     "day" "Days" NOT NULL,
+    "startTime" TIME NOT NULL,
+    "endTime" TIME,
     "userId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL,
 
