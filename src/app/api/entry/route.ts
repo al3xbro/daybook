@@ -10,13 +10,11 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
 
     try {
-        const start = new Date(z.string().parse(searchParams.get("date")))
-        const end = new Date(start.getFullYear(), start.getMonth(), start.getDate() + 1, start.getHours(), start.getMinutes(), start.getSeconds(), start.getMilliseconds() - 1)
-
+        const date = z.string().parse(searchParams.get("date"))
         const sessionValue = z.string().parse(session?.value)
 
         // gets all events and tasks for that day
-        /* const data = await prismaClient.session.findUnique({
+        const data = await prismaClient.session.findUnique({
             where: {
                 sessionToken: sessionValue
             },
@@ -26,31 +24,33 @@ export async function GET(req: Request) {
                         Entry: {
                             where: {
                                 OR: [
-                                    {
-                                        AND: [
-                                            {
-                                                startTime: {
-                                                    gte: start.toISOString(),
-                                                    lte: end.toISOString(),
-                                                },
-                                            }
-                                        ],
-                                    },
-                                    {
-                                        endTime: {
-                                            gte: start.toISOString(),
-                                            lte: end.toISOString(),
-                                        }
-                                    },
+                                    { date: date },
                                     { repeatOn: "daily" },
                                     {
                                         AND: [
                                             { repeatOn: "weekly" },
                                             {
-                                                OR: [
-
-                                                    // if the requested day is the same as the event day
-                                                ]
+                                                day: new Date(parseInt(date.substring(0, 4)), parseInt(date.substring(4, 6)), parseInt(date.substring(6, 8))).getDay()
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        AND: [
+                                            { repeatOn: "monthly" },
+                                            {
+                                                date: {
+                                                    endsWith: date.substring(6, 8)
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        AND: [
+                                            { repeatOn: "yearly" },
+                                            {
+                                                date: {
+                                                    startsWith: date.substring(0, 4)
+                                                }
                                             }
                                         ]
                                     }
@@ -61,7 +61,6 @@ export async function GET(req: Request) {
                                 notes: true,
                                 startTime: true,
                                 endTime: true,
-                                repeatOn: true,
                             },
 
                         }
@@ -70,8 +69,7 @@ export async function GET(req: Request) {
             }
         })
 
-        return new Response(JSON.stringify(data?.user.Entry), { status: 200 }) */
-        return new Response("ok", { status: 200 })
+        return new Response(JSON.stringify(data?.user.Entry), { status: 200 })
     } catch (error) {
         console.log(error)
         return new Response("error", { status: 500 })
@@ -90,7 +88,7 @@ export async function POST(req: Request) {
         const title = formData.get("title")?.toString() ?? "Unnamed"
         const notes = formData.get("notes")?.toString() ?? ""
 
-        // gets repeatOn and converts to RepeatTypes
+        // gets repeatOn and converts to RepeatTypes. this sucks
         let repeatOnString = z.string().parse(formData.get("repeatOn")?.toString())
         let repeatOn
         switch (repeatOnString) {

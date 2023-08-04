@@ -10,12 +10,13 @@ type Props = {
 export default function Day({ date, viewingMonth }: Props) {
 
     // queries for entries
+    const dateString = `${date.getFullYear()}${("0" + date.getMonth()).slice(-2)}${("0" + date.getDate()).slice(-2)}`
     const query = useQuery({
-        queryKey: [`date${date.toISOString()}`],
+        queryKey: [dateString],
         queryFn: async () => {
-            return axios.get(`/api/entry?date=${date}`)
+            return axios.get(`/api/entry?date=${dateString}`)
         },
-    })
+    }).data?.data
     const events = query.data?.data
 
     if (query.isError) {
