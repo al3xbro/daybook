@@ -13,7 +13,11 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
 
     try {
+        // gets day and date
         const date = z.string().parse(searchParams.get("date"))
+        const day = new Date(parseInt(date.substring(0, 4)), parseInt(date.substring(4, 6)) - 1, parseInt(date.substring(6, 8))).getDay() + 1
+
+        // gets session value from cookies
         const sessionValue = z.string().parse(session?.value)
 
         // gets all events and tasks for that day
@@ -33,7 +37,7 @@ export async function GET(req: Request) {
                                         AND: [
                                             { repeatOn: "weekly" },
                                             {
-                                                day: new Date(parseInt(date.substring(0, 4)), parseInt(date.substring(4, 6)), parseInt(date.substring(6, 8))).getDay()
+                                                day: day
                                             }
                                         ]
                                     },
@@ -52,7 +56,7 @@ export async function GET(req: Request) {
                                             { repeatOn: "yearly" },
                                             {
                                                 date: {
-                                                    startsWith: date.substring(0, 4)
+                                                    endsWith: date.substring(4)
                                                 }
                                             }
                                         ]
