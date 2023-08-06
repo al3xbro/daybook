@@ -41,7 +41,10 @@ export default function EventForm({ change }: Props) {
 
     // creates event using useMutation.mutate()
     function createEvent(event: eventData) {
-        event.day = (new Date(parseInt(event.date.substring(0, 4)), parseInt(event.date.substring(5, 7)) - 1, parseInt(event.date.substring(8, 10)))).getDay()
+        event.day = (new Date(parseInt(event.date.substring(0, 4)), parseInt(event.date.substring(5, 7)) - 1, parseInt(event.date.substring(8, 10)))).getDay() + 1
+        event.date = event.date.substring(0, 4) + ("0" + parseInt(event.date.substring(5, 7))).slice(-2) + ("0" + event.date.substring(8, 10)).slice(-2)
+        event.startTime = event.startTime.substring(0, 2) + event.startTime.substring(3, 5)
+        event.endTime = event.endTime.substring(0, 2) + event.endTime.substring(3, 5)
         console.log(event)
         eventMutation.mutate(event, {
             onSuccess: () => {
