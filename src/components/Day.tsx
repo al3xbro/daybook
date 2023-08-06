@@ -16,7 +16,7 @@ export default function Day({ date, viewingMonth }: Props) {
         queryFn: async () => {
             return axios.get(`/api/entry?date=${dateString}`)
         },
-    }).data?.data
+    })
     const events = query.data?.data
 
     if (query.isError) {

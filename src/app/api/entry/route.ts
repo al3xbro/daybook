@@ -4,6 +4,9 @@ import cookie from "@/lib/cookies";
 import { z } from "zod"
 import { RepeatTypes } from "@prisma/client";
 
+/**
+ * pass a query with searchParams.date as a string in the form of "yyyymmdd"
+ */
 export async function GET(req: Request) {
     const cookieStore = cookies()
     const session = cookieStore.get(cookie)
@@ -75,7 +78,14 @@ export async function GET(req: Request) {
         return new Response("error", { status: 500 })
     }
 }
-
+/**
+ * pass formData with the following fields:
+ *  title: string
+ *  notes: string
+ *  repeatOn: string
+ *  startDate: string from Date object
+ *  endTime: string in the form of "hh:mm"
+ */
 export async function POST(req: Request) {
     const cookieStore = cookies()
     const session = cookieStore.get(cookie)
@@ -112,19 +122,11 @@ export async function POST(req: Request) {
                 break
         }
 
-        // gets startDate from form
-        const startDate = new Date(z.string().parse(formData.get("startDate")?.toString()))
-
         // gets startTime, endTime, date, day
-        const startTime = startDate.getHours().toString() + startDate.getMinutes().toString()
-        let endTime
-        if (formData.has("endTime")) {
-            endTime = z.string().parse(formData.get("endTime")?.toString()).substring(0, 2) + z.string().parse(formData.get("endTime")?.toString()).substring(3, 5)
-        } else {
-            endTime = ""
-        }
-        const date = startDate.getFullYear().toString() + startDate.getMonth().toString() + startDate.getDate().toString()
-        const day = startDate.getDay()
+        const date = z.string().parse(formData.get("date")?.toString())
+        const startTime = z.string().parse(formData.get("startTime")?.toString())
+        const endTime = formData.has("endTime") ? z.string().parse(formData.get("endTime")?.toString()) : ""    // event or todo
+        const day = (new Date(parseInt(date.substring(0, 4)), parseInt(date.substring(4, 6)), parseInt(date.substring(6, 8)))).getDay()
 
         // gets userid from session
         const user = await prismaClient.session.findUnique({
@@ -135,7 +137,8 @@ export async function POST(req: Request) {
                 userId: true
             }
         })
-        const userId = user ? user["userId"].toString() : ""
+        if (!user) return new Response("are u logged in", { status: 500 })
+        const userId = user["userId"].toString()
 
         // creates entry 
         await prismaClient.entry.create({
@@ -152,9 +155,9 @@ export async function POST(req: Request) {
                 endTime: endTime
             }
         })
-        return new Response("ok", { status: 200 })
+        return new Response("ur chillen", { status: 200 })
     } catch (error) {
         console.log(error)
-        return new Response("error", { status: 500 })
+        return new Response("something went wrong", { status: 500 })
     }
 }
