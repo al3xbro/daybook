@@ -7,14 +7,16 @@ type Props = {
     change: Function
 }
 
-type eventData = {
+interface eventData {
     title: string,
     notes: string,
     repeatOn: string,
     date: string,
     startTime: string,
     endTime: string,
+    day: number
 }
+
 
 export default function EventForm({ change }: Props) {
 
@@ -39,13 +41,14 @@ export default function EventForm({ change }: Props) {
 
     // creates event using useMutation.mutate()
     function createEvent(event: eventData) {
-
+        event.day = (new Date(parseInt(event.date.substring(0, 4)), parseInt(event.date.substring(5, 7)) - 1, parseInt(event.date.substring(8, 10)))).getDay()
         console.log(event)
         eventMutation.mutate(event, {
             onSuccess: () => {
                 queryClient.invalidateQueries([]) // TODO
             }
         })
+        change(0)
     }
 
     return (
