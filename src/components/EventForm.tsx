@@ -17,12 +17,23 @@ interface eventData {
     day: number
 }
 
-
 export default function EventForm({ change }: Props) {
 
     // defines useForm
-    const form = useForm<eventData>()
-    const { register, handleSubmit } = form
+    const now = new Date()
+    const form = useForm<eventData>({
+        defaultValues: {
+            title: "",
+            notes: "",
+            repeatOn: "none",
+            date: `${now.getFullYear()}-${("0" + (now.getMonth() + 1)).slice(-2)}-${("0" + now.getDate()).slice(-2)}`,
+            startTime: `${("0" + now.getHours()).slice(-2)}:${("0" + now.getMinutes()).slice(-2)}`,
+            endTime: `${("0" + (now.getHours() + 1)).slice(-2)}:${("0" + now.getMinutes()).slice(-2)}`,
+            day: 0
+        }
+    })
+    const { register, handleSubmit, setValue, formState, getValues } = form
+    const { errors } = formState
 
     // defines useMutation
     const queryClient = useQueryClient()
@@ -56,22 +67,46 @@ export default function EventForm({ change }: Props) {
 
     return (
         <div className="self-center w-4/5">
-            <form className="flex flex-col gap-5 w-full" onSubmit={handleSubmit(createEvent)}>
+            <form className="flex flex-col gap-7 w-full" onSubmit={handleSubmit(createEvent)} noValidate>
                 <div>
                     <div>title</div>
-                    <input type="text" id="title" className="w-full p-1 rounded-md" {...register("title")} />
+                    <input type="text" id="title" className="w-full p-1 rounded-md" {...register("title", { required: "required" })} />
+                    <div className="absolute text-sm text-red-500">{errors.title?.message}</div>
                 </div>
                 <div>
                     <div>date</div>
-                    <input type="date" id="date" className="w-full p-1 rounded-md" {...register("date")} />
+                    <input type="date" id="date" className="w-full p-1 rounded-md" {...register("date", {
+                        required: {
+                            value: true,
+                            message: "required"
+                        },
+                    })} />
                 </div>
                 <div>
                     <div>start time</div>
-                    <input type="time" id="startTime" className="w-fit p-1 rounded-md" {...register("startTime")} />
+                    <input type="time" id="startTime" className="w-fit p-1 rounded-md" {...register("startTime", {
+                        required: {
+                            value: true,
+                            message: "required"
+                        }
+                    }
+                    )} />
+                    <div className="absolute text-sm text-red-500">{errors.startTime?.message}</div>
                 </div>
                 <div>
                     <div>end time</div>
-                    <input type="time" id="endTime" className="w-fit p-1 rounded-md" {...register("endTime")} />
+                    <input type="time" id="endTime" className="w-fit p-1 rounded-md" {...register("endTime", {
+                        required: {
+                            value: true,
+                            message: "required"
+                        },
+                        min: {
+                            value: getValues("startTime"),
+                            message: "must be after start time"
+                        },
+                    }
+                    )} />
+                    <div className="absolute text-sm text-red-500">{errors.endTime?.message}</div>
                 </div>
                 <div>
                     <div>notes</div>
@@ -80,8 +115,9 @@ export default function EventForm({ change }: Props) {
                 <div>
                     <div className="flex justify-between">
                         <div>repeat on</div>
-                        <div className="select-none" onClick={() => {
+                        <div className="select-none text-sm  text-gray-400" onClick={() => {
                             const elements = document.getElementsByTagName("input")
+                            setValue("repeatOn", "none")
                             for (let i = 0; i < elements.length; i++) {
                                 if (elements[i].type === "radio") {
                                     elements[i].checked = false
