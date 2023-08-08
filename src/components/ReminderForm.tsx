@@ -7,7 +7,7 @@ type Props = {
     change: Function
 }
 
-interface eventData {
+interface reminderData {
     title: string,
     notes: string,
     repeatOn: string,
@@ -17,18 +17,18 @@ interface eventData {
     day: number
 }
 
-export default function EventForm({ change }: Props) {
+export default function ReminderForm({ change }: Props) {
 
     // defines useForm
     const now = new Date()
-    const form = useForm<eventData>({
+    const form = useForm<reminderData>({
         defaultValues: {
             title: "",
             notes: "",
             repeatOn: "none",
             date: `${now.getFullYear()}-${("0" + (now.getMonth() + 1)).slice(-2)}-${("0" + now.getDate()).slice(-2)}`,
             startTime: `${("0" + now.getHours()).slice(-2)}:${("0" + now.getMinutes()).slice(-2)}`,
-            endTime: `${("0" + (now.getHours() + 1)).slice(-2)}:${("0" + now.getMinutes()).slice(-2)}`,
+            endTime: "",
             day: 0
         }
     })
@@ -50,12 +50,12 @@ export default function EventForm({ change }: Props) {
         },
     })
 
-    // creates event using useMutation.mutate()
-    function createEvent(event: eventData) {
+    // creates reminder using useMutation.mutate()
+    function createEvent(event: reminderData) {
         event.day = (new Date(parseInt(event.date.substring(0, 4)), parseInt(event.date.substring(5, 7)) - 1, parseInt(event.date.substring(8, 10)))).getDay() + 1
         event.date = event.date.substring(0, 4) + ("0" + parseInt(event.date.substring(5, 7))).slice(-2) + ("0" + event.date.substring(8, 10)).slice(-2)
         event.startTime = event.startTime.substring(0, 2) + event.startTime.substring(3, 5)
-        event.endTime = event.endTime.substring(0, 2) + event.endTime.substring(3, 5)
+        event.endTime = ""
         console.log(event)
         eventMutation.mutate(event, {
             onSuccess: () => {
@@ -84,7 +84,7 @@ export default function EventForm({ change }: Props) {
                     <div className="absolute text-sm text-red-500">{errors.date?.message}</div>
                 </div>
                 <div>
-                    <div>start time</div>
+                    <div>deadline</div>
                     <input type="time" id="startTime" className="w-fit p-1 rounded-md" {...register("startTime", {
                         required: {
                             value: true,
@@ -93,21 +93,6 @@ export default function EventForm({ change }: Props) {
                     }
                     )} />
                     <div className="absolute text-sm text-red-500">{errors.startTime?.message}</div>
-                </div>
-                <div>
-                    <div>end time</div>
-                    <input type="time" id="endTime" className="w-fit p-1 rounded-md" {...register("endTime", {
-                        required: {
-                            value: true,
-                            message: "required"
-                        },
-                        min: {
-                            value: getValues("startTime"),
-                            message: "must be after start time"
-                        },
-                    }
-                    )} />
-                    <div className="absolute text-sm text-red-500">{errors.endTime?.message}</div>
                 </div>
                 <div>
                     <div>notes</div>

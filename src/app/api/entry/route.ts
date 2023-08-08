@@ -129,7 +129,7 @@ export async function POST(req: Request) {
         // gets startTime, endTime, date, day
         const date = z.string().parse(formData.get("date")?.toString())
         const startTime = z.string().parse(formData.get("startTime")?.toString())
-        const endTime = formData.has("endTime") ? z.string().parse(formData.get("endTime")?.toString()) : ""    // event or todo
+        const endTime = formData.has("endTime") ? z.string().parse(formData.get("endTime")?.toString()) : ""    // event or reminder
         const day = (new Date(parseInt(date.substring(0, 4)), parseInt(date.substring(4, 6)) - 1, parseInt(date.substring(6, 8)))).getDay() + 1
 
         // gets userid from session
