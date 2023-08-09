@@ -1,5 +1,4 @@
 import './globals.css'
-import Navbar from '@/components/Navbar'
 import Wrapper from '@/components/Wrapper'
 import { Montserrat } from 'next/font/google'
 import { getServerSession } from "next-auth";
@@ -21,8 +20,7 @@ export default async function RootLayout({
     return (
         <html lang="en">
             <Wrapper session={session}>
-                <body className={`${montserrat.className} h-screen w-screen flex justify-center`}>
-                    <Navbar />
+                <body className={`${montserrat.className} h-screen w-screen flex justify-center select-none`}>
                     {children}
                 </body>
             </Wrapper>

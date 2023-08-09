@@ -101,7 +101,7 @@ export default function ReminderForm({ change }: Props) {
                 <div>
                     <div className="flex justify-between">
                         <div>repeat on</div>
-                        <div className="select-none text-sm  text-gray-400" onClick={() => {
+                        <div className="text-sm  text-gray-400" onClick={() => {
                             const elements = document.getElementsByTagName("input")
                             setValue("repeatOn", "none")
                             for (let i = 0; i < elements.length; i++) {

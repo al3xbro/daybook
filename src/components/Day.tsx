@@ -21,7 +21,7 @@ export default function Day({ date, viewingMonth }: Props) {
 
     if (query.isError) {
         return (
-            <div className={(date.getMonth() !== viewingMonth ? "text-gray-300" : "text-black") + " border border-gray-300 flex justify-center select-none"}>
+            <div className={(date.getMonth() !== viewingMonth ? "text-gray-300" : "text-black") + " border border-gray-300 flex justify-center"}>
                 <div className={`mx-auto text-center pt-2 w-10 h-10 rounded-full m-2 ${date.toDateString() == new Date().toDateString() ? "bg-blue-200" : ""}`}>
                     error
                 </div>
@@ -30,7 +30,7 @@ export default function Day({ date, viewingMonth }: Props) {
     }
     if (query.isLoading) {
         return (
-            <div className={(date.getMonth() !== viewingMonth ? "text-gray-300" : "text-black") + " border border-gray-300 flex justify-center select-none"}>
+            <div className={(date.getMonth() !== viewingMonth ? "text-gray-300" : "text-black") + " border border-gray-300 flex justify-center"}>
                 <div className={`mx-auto text-center pt-2 w-10 h-10 rounded-full m-2 ${date.toDateString() == new Date().toDateString() ? "bg-blue-200" : ""}`}>
                     loading
                 </div>
@@ -40,7 +40,7 @@ export default function Day({ date, viewingMonth }: Props) {
 
     // renders date with entries
     return (
-        <div className={(date.getMonth() !== viewingMonth ? "text-gray-300" : "text-black") + " border border-gray-300 flex justify-center select-none"}>
+        <div className={(date.getMonth() !== viewingMonth ? "text-gray-300" : "text-black") + " border border-gray-300 flex justify-center"}>
             <div className={`mx-auto text-center pt-2 w-10 h-10 rounded-full m-2 ${date.toDateString() == new Date().toDateString() ? "bg-blue-200" : ""}`}>
                 {date.getDate()}
                 {JSON.stringify(events)}

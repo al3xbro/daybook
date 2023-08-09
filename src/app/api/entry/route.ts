@@ -99,8 +99,8 @@ export async function POST(req: Request) {
         const sessionValue = z.string().parse(session?.value)
 
         // gets primative data from form
-        const title = formData.get("title")?.toString() ?? "Unnamed"
-        const notes = formData.get("notes")?.toString() ?? ""
+        const title = z.string().parse(formData.get("title"))
+        const notes = z.string().parse(formData.get("notes"))
 
         // gets repeatOn and converts to RepeatTypes. this sucks
         let repeatOnString = z.string().parse(formData.get("repeatOn")?.toString())
@@ -127,9 +127,9 @@ export async function POST(req: Request) {
         }
 
         // gets startTime, endTime, date, day
-        const date = z.string().parse(formData.get("date")?.toString())
-        const startTime = z.string().parse(formData.get("startTime")?.toString())
-        const endTime = formData.has("endTime") ? z.string().parse(formData.get("endTime")?.toString()) : ""    // event or reminder
+        const date = z.string().parse(formData.get("date"))
+        const startTime = z.string().parse(formData.get("startTime"))
+        const endTime = z.string().parse(formData.get("endTime"))    // event or reminder
         const day = (new Date(parseInt(date.substring(0, 4)), parseInt(date.substring(4, 6)) - 1, parseInt(date.substring(6, 8)))).getDay() + 1
 
         // gets userid from session

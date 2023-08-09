@@ -96,7 +96,7 @@ export default function EventForm({ change }: Props) {
                 </div>
                 <div>
                     <div>end time</div>
-                    <input type="time" id="endTime" className="w-fit p-1 rounded-md" {...register("endTime", {
+                    <input type="time" id="endTime" className="w-fit p-1 rounded-md border-2" {...register("endTime", {
                         required: {
                             value: true,
                             message: "required"
@@ -116,7 +116,7 @@ export default function EventForm({ change }: Props) {
                 <div>
                     <div className="flex justify-between">
                         <div>repeat on</div>
-                        <div className="select-none text-sm  text-gray-400" onClick={() => {
+                        <div className="text-sm  text-gray-400" onClick={() => {
                             const elements = document.getElementsByTagName("input")
                             setValue("repeatOn", "none")
                             for (let i = 0; i < elements.length; i++) {

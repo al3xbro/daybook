@@ -2,13 +2,30 @@
 import { useSession, signIn, signOut } from "next-auth/react"
 import Image from "next/image"
 
-export default function Navbar() {
+type Props = {
+    date: Date,
+    setDate: Function
+}
+
+export default function Navbar({ date, setDate }: Props) {
 
     const { status } = useSession()
     return (
         <>
-            <div className="h-16 w-full bg-gray-200 fixed flex items-center pl-10 pr-10 md:pl-20 md:pr-20 lg:pl-40 lg:pr-40">
+            <div className="h-16 w-full fixed flex items-center pl-10 pr-10 md:pl-20 md:pr-20 lg:pl-40 lg:pr-40 border border-gray-300">
                 <div className="flex-1">STILL UNDER DEVELOPMENT. THIS IS JUST A DEMO.</div>
+                <div className="flex flex-1 gap-3">
+                    <div onClick={() => {
+                        const newDate = date
+                        newDate.setMonth(date.getMonth() - 1)
+                        setDate(newDate)
+                    }}>{"<"}</div>
+                    <div onClick={() => {
+                        const newDate = date
+                        newDate.setMonth(date.getMonth() + 1)
+                        setDate(newDate)
+                    }}>{">"}</div>
+                </div>
                 <div className="flex flex-1 items-center justify-end gap-10">
                     {/* shows different buttons based on authentication status */}
                     {status === "authenticated" ?
