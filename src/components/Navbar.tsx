@@ -1,6 +1,5 @@
 "use client"
 import { useSession, signIn, signOut } from "next-auth/react"
-import Image from "next/image"
 import { Dispatch, SetStateAction } from "react"
 
 type Props = {
@@ -26,7 +25,7 @@ export default function Navbar({ date, setDate, view, setView }: Props) {
         <div>
             <div className="h-16 w-full fixed flex items-center pl-10 pr-10 md:pl-20 md:pr-20 lg:pl-40 lg:pr-40 border border-gray-300">
                 <div className="flex-1">STILL UNDER DEVELOPMENT. THIS IS JUST A DEMO.</div>
-                <div className="flex flex-1 gap-3">
+                <div className="flex flex-1 gap-3 justify-center">
                     <div onClick={() => {
                         switch (view) {
                             case "month":
@@ -52,6 +51,22 @@ export default function Navbar({ date, setDate, view, setView }: Props) {
                                 break;
                         }
                     }}>{">"}</div>
+                </div>
+                <div className="flex-1 text-center">
+                    <div onClick={() => {
+                        if (view === "week") {
+                            setView("month")
+                        } else if (view === "day") {
+                            setView("week")
+                        }
+                    }}>^</div>
+                    <div onClick={() => {
+                        if (view === "month") {
+                            setView("week")
+                        } else if (view === "week") {
+                            setView("day")
+                        }
+                    }}>˅</div>
                 </div>
                 <div className="flex flex-1 items-center justify-end gap-10">
                     {/* shows different buttons based on authentication status */}
