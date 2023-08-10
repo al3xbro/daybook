@@ -1,14 +1,18 @@
+"use client"
 import Day from "./Day"
 
 type Props = {
-    date: Date,
-    setDate: Function
+    date: {
+        month: number,
+        year: number,
+        date: number
+    }
 }
 
 export default function MonthView({ date }: Props) {
 
-    const currMonth = date.getMonth()
-    const currYear = date.getFullYear()
+    const currMonth = date.month
+    const currYear = date.year
 
     const firstDayOfMonth = new Date(currYear, currMonth, 1).getDay()
     const daysInMonth = new Date(currYear, currMonth, 0).getDate()
@@ -26,7 +30,6 @@ export default function MonthView({ date }: Props) {
 
     return (
         <div className="flex flex-col mt-16 w-full">
-            <div>{date.toString()}</div>
             <div className="grid grid-cols-7 w-full h-full justify-center">
                 {days.map((e) => <Day date={e} viewingMonth={currMonth} key={e.getTime()} />)}
             </div>

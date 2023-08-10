@@ -56,7 +56,6 @@ export default function ReminderForm({ change }: Props) {
         event.date = event.date.substring(0, 4) + ("0" + parseInt(event.date.substring(5, 7))).slice(-2) + ("0" + event.date.substring(8, 10)).slice(-2)
         event.startTime = event.startTime.substring(0, 2) + event.startTime.substring(3, 5)
         event.endTime = ""
-        console.log(event)
         eventMutation.mutate(event, {
             onSuccess: () => {
                 queryClient.invalidateQueries([]) // TODO
