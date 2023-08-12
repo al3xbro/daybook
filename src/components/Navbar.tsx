@@ -28,7 +28,7 @@ export default function Navbar({ date, setDate, view, setView }: Props) {
                 <div className="flex flex-1 gap-3 justify-center">
                     <div onClick={() => {
                         switch (view) {
-                            case "month":
+                            case "month": {
                                 const newDate = new Date(date.year, date.month - 1, date.date)
                                 setDate({
                                     month: newDate.getMonth(),
@@ -36,12 +36,32 @@ export default function Navbar({ date, setDate, view, setView }: Props) {
                                     date: newDate.getDate()
                                 })
                                 break;
+                            }
+                            case "week": {
+                                const newDate = new Date(date.year, date.month, date.date - 7)
+                                setDate({
+                                    month: newDate.getMonth(),
+                                    year: newDate.getFullYear(),
+                                    date: newDate.getDate()
+                                })
+                                break;
+                            }
+                            case "day": {
+                                const newDate = new Date(date.year, date.month, date.date - 1)
+                                setDate({
+                                    month: newDate.getMonth(),
+                                    year: newDate.getFullYear(),
+                                    date: newDate.getDate()
+                                })
+                                break;
+                            }
                         }
-                    }}>{"<"}</div>
+                    }
+                    }>{"<"}</div>
                     <div>{`${months[date.month]} ${date.date}, ${date.year}`}</div>
                     <div onClick={() => {
                         switch (view) {
-                            case "month":
+                            case "month": {
                                 const newDate = new Date(date.year, date.month + 1, date.date)
                                 setDate({
                                     month: newDate.getMonth(),
@@ -49,6 +69,25 @@ export default function Navbar({ date, setDate, view, setView }: Props) {
                                     date: newDate.getDate()
                                 })
                                 break;
+                            }
+                            case "week": {
+                                const newDate = new Date(date.year, date.month, date.date + 7)
+                                setDate({
+                                    month: newDate.getMonth(),
+                                    year: newDate.getFullYear(),
+                                    date: newDate.getDate()
+                                })
+                                break;
+                            }
+                            case "day": {
+                                const newDate = new Date(date.year, date.month, date.date + 1)
+                                setDate({
+                                    month: newDate.getMonth(),
+                                    year: newDate.getFullYear(),
+                                    date: newDate.getDate()
+                                })
+                                break;
+                            }
                         }
                     }}>{">"}</div>
                 </div>
