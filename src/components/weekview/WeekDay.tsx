@@ -6,7 +6,7 @@ type Props = {
     viewingMonth: number
 }
 
-export default function MonthDay({ date, viewingMonth }: Props) {
+export default function WeekDay({ date, viewingMonth }: Props) {
 
     // queries for entries
     const dateString = `${date.getFullYear()}${("0" + (date.getMonth() + 1)).slice(-2)}${("0" + date.getDate()).slice(-2)}`

@@ -99,6 +99,7 @@ export default function Navbar({ date, setDate, view, setView }: Props) {
                             setView("week")
                         }
                     }}>^</div>
+                    <div>{view}</div>
                     <div onClick={() => {
                         if (view === "month") {
                             setView("week")

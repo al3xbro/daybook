@@ -10,16 +10,16 @@ type Props = {
 
 export default function WeekView({ date }: Props) {
 
-    const firstDateOfWeek = (new Date(date.year, date.month, date.date - new Date(date.year, date.month, 1).getDay() - 1)).getDate()
+    const firstDateOfWeek = new Date(date.year, date.month, date.date - new Date(date.year, date.month, date.date).getDay())
 
     // all dates to be rendered
     const days: Date[] = []
 
     // adds all dates
-    for (let i = firstDateOfWeek;
-        i < firstDateOfWeek + 7;
-        i++) {
-        days.push(new Date(date.year, date.month, i))
+    let i = 0
+    while (i < 7) {
+        days.push(new Date(firstDateOfWeek.getFullYear(), firstDateOfWeek.getMonth(), firstDateOfWeek.getDate() + i))
+        i++
     }
 
     return (
