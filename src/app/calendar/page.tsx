@@ -1,12 +1,12 @@
 "use client"
-import MonthView from "@/components/MonthView";
+import MonthView from "@/components/monthview/MonthView";
 import Sidebar from "@/components/Sidebar";
 import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
-import WeekView from "@/components/WeekView";
-import DayView from "@/components/DayView";
+import WeekView from "@/components/weekview/WeekView";
+import DayView from "@/components/dayview/DayView";
 
 const today = {
     month: new Date().getMonth(),

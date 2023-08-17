@@ -1,5 +1,5 @@
 "use client"
-import Day from "./Day"
+import MonthDay from "./MonthDay"
 
 type Props = {
     date: {
@@ -11,11 +11,8 @@ type Props = {
 
 export default function MonthView({ date }: Props) {
 
-    const currMonth = date.month
-    const currYear = date.year
-
-    const firstDayOfMonth = new Date(currYear, currMonth, 1).getDay()
-    const daysInMonth = new Date(currYear, currMonth, 0).getDate()
+    const firstDayOfMonth = new Date(date.year, date.month, 1).getDay()
+    const daysInMonth = new Date(date.year, date.month, 0).getDate()
     const daysToRender = (Math.ceil((firstDayOfMonth + daysInMonth) / 7) * 7) - firstDayOfMonth
 
     // all dates to be rendered
@@ -25,13 +22,13 @@ export default function MonthView({ date }: Props) {
     for (let i = (-firstDayOfMonth + 1);
         i <= daysToRender;
         i++) {
-        days.push(new Date(currYear, currMonth, i))
+        days.push(new Date(date.year, date.month, i))
     }
 
     return (
         <div className="flex flex-col mt-16 w-full">
             <div className="grid grid-cols-7 w-full h-full justify-center">
-                {days.map((e) => <Day date={e} viewingMonth={currMonth} key={e.getTime()} />)}
+                {days.map((e) => <MonthDay date={e} viewingMonth={date.month} key={e.getTime()} />)}
             </div>
         </div>
     )

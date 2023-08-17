@@ -1,4 +1,3 @@
-import React from 'react'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 
@@ -7,7 +6,7 @@ type Props = {
     viewingMonth: number
 }
 
-export default function Day({ date, viewingMonth }: Props) {
+export default function MonthDay({ date, viewingMonth }: Props) {
 
     // queries for entries
     const dateString = `${date.getFullYear()}${("0" + (date.getMonth() + 1)).slice(-2)}${("0" + date.getDate()).slice(-2)}`
