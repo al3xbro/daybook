@@ -25,7 +25,7 @@ export default function DayView({ date }: Props) {
 
     if (query.isError) {
         return (
-            <div className={"text-black border border-gray-300 flex justify-center mt-16 w-full "}>
+            <div className={"text-black border border-gray-300 flex justify-center mt-16 w-full"}>
                 <div className={`mx-auto text-center pt-2 w-10 h-10 rounded-full m-2 ${(new Date(date.year, date.month, date.date)).toDateString() == new Date().toDateString() ? "bg-blue-200" : ""}`}>
                     error
                 </div>

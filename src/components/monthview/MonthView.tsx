@@ -12,7 +12,7 @@ type Props = {
 export default function MonthView({ date }: Props) {
 
     const firstDayOfMonth = new Date(date.year, date.month, 1).getDay()
-    const daysInMonth = new Date(date.year, date.month, 0).getDate()
+    const daysInMonth = new Date(date.year, date.month + 1, 0).getDate()
     const daysToRender = (Math.ceil((firstDayOfMonth + daysInMonth) / 7) * 7) - firstDayOfMonth
 
     // all dates to be rendered
