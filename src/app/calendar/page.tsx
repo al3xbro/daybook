@@ -4,7 +4,7 @@ import Sidebar from "@/components/Sidebar";
 import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import Navbar from "@/components/Navbar";
+import CalendarNavbar from "@/components/CalendarNavbar";
 import WeekView from "@/components/weekview/WeekView";
 import DayView from "@/components/dayview/DayView";
 
@@ -37,7 +37,7 @@ export default function ProtectedCalendar() {
     }
     return (
         <>
-            <Navbar date={date} setDate={setDate} view={view} setView={setView} />
+            <CalendarNavbar date={date} setDate={setDate} view={view} setView={setView} />
             <div className="flex flex-row w-full h-full">
                 <Sidebar />
                 {currView()}
