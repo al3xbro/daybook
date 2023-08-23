@@ -1,4 +1,3 @@
-"use client"
 import { signOut } from "next-auth/react"
 import { Dispatch, SetStateAction } from "react"
 

@@ -1,4 +1,3 @@
-"use client"
 import MonthDay from "./MonthDay"
 
 type Props = {

@@ -1,5 +1,3 @@
-"use client"
-
 import EventForm from "./input/EventForm"
 import ReminderForm from "./input/ReminderForm"
 import { useState } from "react"
