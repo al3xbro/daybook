@@ -53,8 +53,10 @@ export default function MonthDay({ date, viewingMonth }: Props) {
             <div className='absolute -top-0 h-full w-full'>
                 {events.map((event: Event) => {
                     return (
-                        <div style={{ height: `${((event.endTime - event.startTime) / 24).toFixed()}%`, top: `${(event.startTime / 24).toFixed()}%` }} key={event.title} className="text-xs w-full bg-purple-300/50 absolute">
-                            {`${event.title} ${event.startTime} ${event.endTime}`}
+                        <div style={{ height: `${((event.endTime - event.startTime) / 24)}%`, top: `${(event.startTime / 24)}%` }} key={event.title} className="text-xs w-full bg-purple-300/50 absolute">
+                            <div>
+                                {`${event.title} ${event.startTime} ${event.endTime}`}
+                            </div>
                         </div>
                     )
                 })}
