@@ -23,7 +23,7 @@ export default function ProtectedCalendar() {
             case "month":
                 return <MonthView date={date} />
             case "day":
-                return <DayView date={date} />
+                return <DayView date={new Date(date.year, date.month, date.date)} />
             case "week":
                 return <WeekView date={date} />
             default:

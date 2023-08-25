@@ -6,6 +6,13 @@ type Props = {
     viewingMonth: number
 }
 
+type Event = {
+    title: string
+    startTime: number
+    endTime: number
+    notes: string
+}
+
 export default function WeekDay({ date, viewingMonth }: Props) {
 
     // queries for entries
@@ -39,10 +46,18 @@ export default function WeekDay({ date, viewingMonth }: Props) {
 
     // renders date with entries
     return (
-        <div className={(date.getMonth() !== viewingMonth ? "text-gray-300" : "text-black") + " border border-gray-300 flex justify-center"}>
-            <div className={`mx-auto text-center pt-2 w-10 h-10 rounded-full m-2 ${date.toDateString() == new Date().toDateString() ? "bg-blue-200" : ""}`}>
+        <div className={(date.getMonth() !== viewingMonth ? "text-gray-300" : "text-black") + " border border-gray-300 justify-center relative"}>
+            <div className={`mx-auto text-center pt-2 w-10 h-10 rounded-full m-2 z-10 ${date.toDateString() == new Date().toDateString() ? "bg-blue-200" : ""}`}>
                 {date.getDate()}
-                {JSON.stringify(events)}
+            </div>
+            <div className='absolute -top-0 h-full w-full'>
+                {events.map((event: Event) => {
+                    return (
+                        <div style={{ height: `${((event.endTime - event.startTime) / 24)}%`, top: `${(event.startTime / 24)}%` }} key={event.title} className="w-full bg-purple-300/50 -z-10 absolute">
+                            {`${event.title} ${event.startTime} ${event.endTime}`}
+                        </div>
+                    )
+                })}
             </div>
         </div>
     )
