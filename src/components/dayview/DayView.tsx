@@ -45,7 +45,7 @@ export default function DayView({ date }: Props) {
 
     // renders date with entries
     return (
-        <div className={"text-black border border-gray-300 justify-center relative"}>
+        <div className={"text-black border border-gray-300 flex justify-center mt-16 w-full relative"}>
             <div className={`mx-auto text-center pt-2 w-10 h-10 rounded-full m-2 z-10 ${date.toDateString() == new Date().toDateString() ? "bg-blue-200" : ""}`}>
                 {date.getDate()}
             </div>
