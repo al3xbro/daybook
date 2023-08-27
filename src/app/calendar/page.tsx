@@ -8,13 +8,12 @@ import CalendarNavbar from "@/components/CalendarNavbar";
 import WeekView from "@/components/weekview/WeekView";
 import DayView from "@/components/dayview/DayView";
 
-const today = {
-    month: new Date().getMonth(),
-    year: new Date().getFullYear(),
-    date: new Date().getDate()
-}
-
 export default function ProtectedCalendar() {
+    const today = {
+        month: new Date().getMonth(),
+        year: new Date().getFullYear(),
+        date: new Date().getDate()
+    }
     const [date, setDate] = useState(today);
     const [view, setView] = useState("month")
 
