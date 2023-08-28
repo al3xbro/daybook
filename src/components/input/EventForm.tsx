@@ -13,7 +13,12 @@ interface eventData {
     date: string,
     startTime: string,
     endTime: string,
-    day: number
+    day: number,
+    color: string
+}
+
+function randomColor() {
+    return `#${Math.floor(Math.random() * 16777215).toString(16)}`
 }
 
 export default function EventForm({ change }: Props) {
@@ -28,6 +33,7 @@ export default function EventForm({ change }: Props) {
             date: `${now.getFullYear()}-${("0" + (now.getMonth() + 1)).slice(-2)}-${("0" + now.getDate()).slice(-2)}`,
             startTime: `${("0" + now.getHours()).slice(-2)}:${("0" + now.getMinutes()).slice(-2)}`,
             endTime: `${("0" + (now.getHours() + 1)).slice(-2)}:${("0" + now.getMinutes()).slice(-2)}`,
+            color: randomColor(),
             day: 0
         }
     })
@@ -57,7 +63,7 @@ export default function EventForm({ change }: Props) {
         event.endTime = event.endTime.substring(0, 2) + event.endTime.substring(3, 5)
         eventMutation.mutate(event, {
             onSuccess: () => {
-                queryClient.invalidateQueries([]) // TODO
+                queryClient.invalidateQueries([event.date])
             }
         })
         change(0)
@@ -68,12 +74,13 @@ export default function EventForm({ change }: Props) {
             <form className="flex flex-col gap-7 w-full" onSubmit={handleSubmit(createEvent)} noValidate>
                 <div>
                     <div>title</div>
-                    <input type="text" id="title" className="w-full p-1 rounded-md" {...register("title", { required: "required" })} />
+                    <input type="text" id="title" className="w-full p-1 rounded-md border-2 border-gray-300" {...register("title", { required: "required" })} />
                     <div className="absolute text-sm text-red-500">{errors.title?.message}</div>
+                    <input type="color" id="color" className="w-[25%] mt-2 rounded-md border-2 border-gray-300" {...register("color", { required: "required" })} />
                 </div>
                 <div>
                     <div>date</div>
-                    <input type="date" id="date" className="w-full p-1 rounded-md" {...register("date", {
+                    <input type="date" id="date" className="w-full p-1 rounded-md border-2 border-gray-300" {...register("date", {
                         required: {
                             value: true,
                             message: "required"
@@ -83,7 +90,7 @@ export default function EventForm({ change }: Props) {
                 </div>
                 <div>
                     <div>start time</div>
-                    <input type="time" id="startTime" className="w-fit p-1 rounded-md" {...register("startTime", {
+                    <input type="time" id="startTime" className="w-fit p-1 rounded-md border-2 border-gray-300" {...register("startTime", {
                         required: {
                             value: true,
                             message: "required"
@@ -94,7 +101,7 @@ export default function EventForm({ change }: Props) {
                 </div>
                 <div>
                     <div>end time</div>
-                    <input type="time" id="endTime" className="w-fit p-1 rounded-md border-2" {...register("endTime", {
+                    <input type="time" id="endTime" className="w-fit p-1 rounded-md border-2 border-gray-300" {...register("endTime", {
                         required: {
                             value: true,
                             message: "required"
@@ -109,7 +116,7 @@ export default function EventForm({ change }: Props) {
                 </div>
                 <div>
                     <div>notes</div>
-                    <textarea id="notes" className="w-full p-1 rounded-md" {...register("notes")}></textarea>
+                    <textarea id="notes" className="w-full p-1 rounded-md border-2 border-gray-300" {...register("notes")}></textarea>
                 </div>
                 <div>
                     <div className="flex justify-between">
@@ -143,7 +150,7 @@ export default function EventForm({ change }: Props) {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-row gap-3">
+                <div className="flex flex-row gap-3 w-full">
                     <button type="submit" className="ui-button flex-1">Submit</button>
                     <div className="ui-button flex-1" onClick={() => change(0)}>Cancel</div>
                 </div>

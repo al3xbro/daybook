@@ -58,14 +58,15 @@ model VerificationToken {
 }
 
 model Entry {
-    id       String      @id @default(cuid())
-    title    String
+    id    String @id @default(cuid())
+    title String
+    color String
+
     notes    String
     repeatOn RepeatTypes @default(none)
 
-    date String
-    day  Int
-
+    date      String
+    day       Int
     startTime String
     endTime   String
 

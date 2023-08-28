@@ -10,6 +10,7 @@ type Event = {
     startTime: string
     endTime: string
     notes: string
+    color: string
 }
 
 export default function DayView({ date }: Props) {
@@ -54,7 +55,11 @@ export default function DayView({ date }: Props) {
                     // duration in hours
                     const duration = (parseInt(event.endTime.slice(0, 2)) + (parseInt(event.endTime.slice(2, 4)) / 60)) - (parseInt(event.startTime.slice(0, 2)) + (parseInt(event.startTime.slice(2, 4)) / 60))
                     return (
-                        <div style={{ height: `${duration / 0.24}%`, top: `${(parseInt(event.startTime.slice(0, 2)) + (parseInt(event.startTime.slice(2, 4)) / 60)) / 0.24}%` }} key={event.title} className="w-full flex justify-between pl-1 pr-1 bg-purple-300/50 -z-10 absolute">
+                        <div style={{
+                            height: `${duration / 0.24}%`,
+                            top: `${(parseInt(event.startTime.slice(0, 2)) + (parseInt(event.startTime.slice(2, 4)) / 60)) / 0.24}%`,
+                            backgroundColor: event.color + "60"
+                        }} key={event.title} className="w-full flex justify-between pl-1 pr-1 bg-purple-300/50 -z-10 absolute">
                             <div>{event.title}</div>
                             <div>{`${event.startTime.slice(0, 2)}:${event.startTime.slice(2, 4)} - ${event.endTime.slice(0, 2)}:${event.endTime.slice(2, 4)}`}</div>
                         </div>

@@ -11,6 +11,7 @@ type Event = {
     startTime: string
     endTime: string
     notes: string
+    color: string
 }
 
 export default function MonthDay({ date, viewingMonth }: Props) {
@@ -55,7 +56,11 @@ export default function MonthDay({ date, viewingMonth }: Props) {
                     // duration in hours
                     const duration = (parseInt(event.endTime.slice(0, 2)) + (parseInt(event.endTime.slice(2, 4)) / 60)) - (parseInt(event.startTime.slice(0, 2)) + (parseInt(event.startTime.slice(2, 4)) / 60))
                     return (
-                        <div style={{ height: `${duration / 0.24}%`, top: `${(parseInt(event.startTime.slice(0, 2)) + (parseInt(event.startTime.slice(2, 4)) / 60)) / 0.24}%` }} key={event.title} className="w-full bg-purple-300/50 -z-10 absolute"></div>
+                        <div style={{
+                            height: `${duration / 0.24}%`,
+                            top: `${(parseInt(event.startTime.slice(0, 2)) + (parseInt(event.startTime.slice(2, 4)) / 60)) / 0.24}%`,
+                            backgroundColor: event.color + "7F"
+                        }} key={event.title} className="w-full -z-10 absolute" />
                     )
                 })}
             </div>

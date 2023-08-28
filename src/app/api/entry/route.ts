@@ -68,6 +68,7 @@ export async function GET(req: Request) {
                                 notes: true,
                                 startTime: true,
                                 endTime: true,
+                                color: true,
                             },
 
                         }
@@ -103,7 +104,7 @@ export async function POST(req: Request) {
         const notes = z.string().parse(formData.get("notes"))
 
         // gets repeatOn and converts to RepeatTypes. this sucks
-        let repeatOnString = z.string().parse(formData.get("repeatOn")?.toString())
+        const repeatOnString = z.string().parse(formData.get("repeatOn")?.toString())
         let repeatOn
         switch (repeatOnString) {
             case "none":
@@ -131,6 +132,7 @@ export async function POST(req: Request) {
         const startTime = z.string().parse(formData.get("startTime"))
         const endTime = z.string().parse(formData.get("endTime"))    // event or reminder
         const day = (new Date(parseInt(date.substring(0, 4)), parseInt(date.substring(4, 6)) - 1, parseInt(date.substring(6, 8)))).getDay() + 1
+        const color = z.string().parse(formData.get("color"))
 
         // gets userid from session
         const user = await prismaClient.session.findUnique({
@@ -156,7 +158,8 @@ export async function POST(req: Request) {
                 day: day,
 
                 startTime: startTime,
-                endTime: endTime
+                endTime: endTime,
+                color: color
             }
         })
         return new Response("ur chillen", { status: 200 })
