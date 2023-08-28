@@ -7,6 +7,7 @@ type Props = {
 }
 
 type Event = {
+    id: string
     title: string
     startTime: string
     endTime: string
@@ -60,7 +61,7 @@ export default function MonthDay({ date, viewingMonth }: Props) {
                             height: `${duration / 0.24}%`,
                             top: `${(parseInt(event.startTime.slice(0, 2)) + (parseInt(event.startTime.slice(2, 4)) / 60)) / 0.24}%`,
                             backgroundColor: event.color + "7F"
-                        }} key={event.title} className="w-full -z-10 absolute" />
+                        }} key={event.id} className="w-full -z-10 absolute" />
                     )
                 })}
             </div>

@@ -64,6 +64,7 @@ export async function GET(req: Request) {
                                 ]
                             },
                             select: {
+                                id: true,
                                 title: true,
                                 notes: true,
                                 startTime: true,

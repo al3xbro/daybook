@@ -7,6 +7,7 @@ type Props = {
 }
 
 type Event = {
+    id: string
     title: string
     startTime: string
     endTime: string
@@ -60,7 +61,7 @@ export default function WeekDay({ date, viewingMonth }: Props) {
                             height: `${duration / 0.24}%`,
                             top: `${(parseInt(event.startTime.slice(0, 2)) + (parseInt(event.startTime.slice(2, 4)) / 60)) / 0.24}%`,
                             backgroundColor: event.color + "60"
-                        }} key={event.title} className="w-full flex justify-between pl-1 pr-1 bg-purple-300/50 -z-10 absolute">
+                        }} key={event.id} className="w-full flex justify-between pl-1 pr-1 bg-purple-300/50 -z-10 absolute">
                             <div>{event.title}</div>
                             <div>{`${event.startTime.slice(0, 2)}:${event.startTime.slice(2, 4)} - ${event.endTime.slice(0, 2)}:${event.endTime.slice(2, 4)}`}</div>
                         </div>
