@@ -2,7 +2,7 @@ import './globals.css'
 import Wrapper from '@/components/Wrapper'
 import { Montserrat } from 'next/font/google'
 import { getServerSession } from "next-auth";
-import { authOptions } from './api/auth/[...nextauth]/route';
+import { authOptions } from './api/auth/[...nextauth]/options';
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 
