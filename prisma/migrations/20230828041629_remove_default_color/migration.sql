@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Entry" ALTER COLUMN "color" DROP DEFAULT;
